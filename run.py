@@ -1,9 +1,9 @@
 from flask import Flask, request, jsonify
-from flask_restx import Resource
+from flask_restx import Api
 from flask_cors import CORS
-from app.models.livro_model import db, Livro
+from app.models.livro_model import db
 from app.controllers.livro_controller import LivroController
-from app.settings.swagger import swagger, livro_model  # Importando a instância do Swagger e o modelo
+from app.settings.swagger import swagger
 
 # Inicializando o Flask
 app = Flask(__name__)
@@ -18,43 +18,9 @@ CORS(app, resources={r"/*": {"origins": "*"}})
 
 # Inicializando o Swagger (API)
 swagger.init_app(app)
-ns = swagger.namespace('livros', description='Operações relacionadas aos livros')
 
-# Classe para o recurso Livro
-@ns.route('/')
-class LivroResource(Resource):
-    @swagger.doc('adicionar_livro')
-    @swagger.expect(livro_model)
-    def post(self):
-        """Adicionar um novo livro"""
-        dados = request.json
-        novo_livro = Livro(titulo=dados['titulo'], autor=dados['autor'])
-        return LivroController.adicionar_livro(novo_livro)
-
-    @swagger.doc('listar_livros')
-    def get(self):
-        """Listar todos os livros"""
-        return LivroController.listar_livros()
-
-@ns.route('/<int:id>')
-class LivroByIdResource(Resource):
-    @swagger.doc('pegar_livro')
-    def get(self, id):
-        """Pegar um livro pelo ID"""
-        return LivroController.pegar_livro(id)
-
-    @swagger.doc('atualizar_livro')
-    @swagger.expect(livro_model)
-    def put(self, id):
-        """Atualizar um livro pelo ID"""
-        dados = request.json
-        livro = Livro(titulo=dados['titulo'], autor=dados['autor'])
-        return LivroController.atualizar_livro(id, livro)
-
-    @swagger.doc('deletar_livro')
-    def delete(self, id):
-        """Deletar um livro pelo ID"""
-        return LivroController.deletar_livro(id)
+# Configurando as rotas do Swagger dentro do controlador
+LivroController.configurar_rotas(swagger)
 
 if __name__ == '__main__':
     with app.app_context():
