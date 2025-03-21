@@ -5,7 +5,7 @@ swagger = Api(
     version='1.0',
     title='API de Livros',
     description='Uma API para gerenciar livros',
-    doc='/swagger',  # URL onde o Swagger UI estará acessível
+    doc='/swagger',
 )
 
 livro_model = swagger.model('Livro', {

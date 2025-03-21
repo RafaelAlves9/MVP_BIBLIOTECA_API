@@ -17,19 +17,19 @@ db.init_app(app)
 CORS(app, resources={r"/*": {"origins": "*"}})
 
 # Inicializando o Swagger (API)
-swagger.init_app(app)  # Inicializando a instância do Swagger no app
+swagger.init_app(app)
 ns = swagger.namespace('livros', description='Operações relacionadas aos livros')
 
 # Classe para o recurso Livro
 @ns.route('/')
 class LivroResource(Resource):
     @swagger.doc('adicionar_livro')
-    @swagger.expect(livro_model)  # Especificando o modelo para a documentação do Swagger
+    @swagger.expect(livro_model)
     def post(self):
         """Adicionar um novo livro"""
         dados = request.json
         novo_livro = Livro(titulo=dados['titulo'], autor=dados['autor'])
-        return LivroController.adicionar_livro(novo_livro)  # Passar os dados para o controller
+        return LivroController.adicionar_livro(novo_livro)
 
     @swagger.doc('listar_livros')
     def get(self):
@@ -44,12 +44,12 @@ class LivroByIdResource(Resource):
         return LivroController.pegar_livro(id)
 
     @swagger.doc('atualizar_livro')
-    @swagger.expect(livro_model)  # Esperando os dados do livro para atualização
+    @swagger.expect(livro_model)
     def put(self, id):
         """Atualizar um livro pelo ID"""
         dados = request.json
         livro = Livro(titulo=dados['titulo'], autor=dados['autor'])
-        return LivroController.atualizar_livro(id, livro)  # Passar os dados para o controller
+        return LivroController.atualizar_livro(id, livro)
 
     @swagger.doc('deletar_livro')
     def delete(self, id):
@@ -58,5 +58,5 @@ class LivroByIdResource(Resource):
 
 if __name__ == '__main__':
     with app.app_context():
-        db.create_all()  # Cria o banco de dados e as tabelas dentro do contexto da aplicação
+        db.create_all()
     app.run(debug=True)
