@@ -12,10 +12,6 @@ class LivroRepository:
         return Livro.query.all()
 
     @staticmethod
-    def pegar_livro(id):
-        return Livro.query.get_or_404(id)
-
-    @staticmethod
     def atualizar_livro(id, dados):
         livro = Livro.query.get_or_404(id)
         livro.titulo = dados.titulo

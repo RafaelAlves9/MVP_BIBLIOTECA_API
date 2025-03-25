@@ -1,5 +1,5 @@
 from app.notification.notification import NotificationService
-from flask import jsonify, make_response
+from flask import jsonify
 from app.repositories.livro_repository import LivroRepository
 
 class LivroService:
@@ -24,11 +24,6 @@ class LivroService:
     def listar_livros():
         livros = LivroRepository.listar_livros()
         return [{'id': livro.id, 'titulo': livro.titulo, 'autor': livro.autor} for livro in livros]
-
-    @staticmethod
-    def pegar_livro(id):
-        livro = LivroRepository.pegar_livro(id)
-        return {'id': livro.id, 'titulo': livro.titulo, 'autor': livro.autor}
 
     @staticmethod
     def atualizar_livro(id, dados):

@@ -16,11 +16,6 @@ class LivroController:
         return jsonify(livros)
 
     @staticmethod
-    def pegar_livro(id):
-        livro = LivroService.pegar_livro(id)
-        return jsonify(livro)
-
-    @staticmethod
     def atualizar_livro(id, dados):
         mensagem = LivroService.atualizar_livro(id, dados)
         return jsonify(mensagem)
@@ -51,11 +46,6 @@ class LivroController:
 
         @ns.route('/<int:id>')
         class LivroByIdResource(Resource):
-            @swagger.doc('pegar_livro')
-            def get(self, id):
-                """Pegar um livro pelo ID"""
-                return LivroController.pegar_livro(id)
-
             @swagger.doc('atualizar_livro')
             @swagger.expect(livro_model)
             def put(self, id):
