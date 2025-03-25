@@ -13,13 +13,12 @@ class LivroService:
         titulo = dados.titulo
 
         if len(titulo) < 2:
-            return self.notification.notify_error('O título deve ter pelo menos 2 caracteres.')
+            return NotificationService.notify_error('O titulo deve ter pelo menos 2 caracteres.')
         elif len(titulo) > 100:
-            return self.notification.notify_error('O título não pode ultrapassar 100 caracteres.')
+            return NotificationService.notify_error('O titulo não pode ultrapassar 100 caracteres.')
 
         LivroRepository.adicionar_livro(dados)
-        return self.notification.notify_error('Livro atualizado com sucesso!', 200)
-
+        return jsonify({'mensagem': 'Livro adicionado com sucesso!'})
 
     @staticmethod
     def listar_livros():
@@ -33,11 +32,12 @@ class LivroService:
 
     @staticmethod
     def atualizar_livro(id, dados):
-        # Validação
+        titulo = dados.titulo
+        
         if len(titulo) < 2:
-            return {'erro': 'O título deve ter pelo menos 2 caracteres.'}, 400
+            return NotificationService.notify_error('O titulo deve ter pelo menos 2 caracteres.')
         elif len(titulo) > 100:
-            return {'erro': 'O título não pode ultrapassar 100 caracteres.'}, 400
+            return NotificationService.notify_error('O titulo não pode ultrapassar 100 caracteres.')
         
         LivroRepository.atualizar_livro(id, dados)
         return {'mensagem': 'Livro atualizado com sucesso!'}
