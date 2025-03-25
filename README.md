@@ -37,7 +37,7 @@ cd <nome do diretório do projeto>
 3. Instale as dependências necessárias:
 
 ```
-pip install flask flask_sqlalchemy
+pip install -r requirements.txt
 ```
 
 ### Como Executar
