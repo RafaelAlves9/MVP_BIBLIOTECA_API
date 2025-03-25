@@ -8,7 +8,7 @@ class LivroController:
     @staticmethod
     def adicionar_livro(dados):
         mensagem = LivroService.adicionar_livro(dados)
-        return jsonify(mensagem)
+        return mensagem
 
     @staticmethod
     def listar_livros():
